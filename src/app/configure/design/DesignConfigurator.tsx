@@ -326,7 +326,7 @@ const DesignConfigurator = ({configId, imageUrl, imageDimensions} : DesignConfig
                                 finish: options.finish.value,
                                 material: options.material.value,
                                 model: options.model.value,
-                            }) } size='sm' className='w-full'>
+                            }) } size='sm' className=' cursor-pointer w-full '>
                                 Continue
                                 <ArrowRight className='h-4 w-4 ml-1.5 inline' />
                             </Button>
