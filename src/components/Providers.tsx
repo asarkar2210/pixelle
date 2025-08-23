@@ -2,16 +2,12 @@
 
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { ReactNode } from 'react'
-import { KindeProvider } from '@kinde-oss/kinde-auth-nextjs'
 
 const client = new QueryClient()
 
 const Providers = ({children} : {children: ReactNode}) => {
-    return (
-        <KindeProvider>
-            <QueryClientProvider client={client}>{children}</QueryClientProvider>
-        </KindeProvider>
-    )
+
+    return <QueryClientProvider client={client}>    {children}   </QueryClientProvider>
 }
 
 export default Providers
