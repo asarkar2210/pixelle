@@ -28,6 +28,8 @@ const eslintConfig = [
       "@typescript-eslint/no-this-alias": "off",
       "@typescript-eslint/no-non-null-asserted-optional": "off",
       "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      
     },
   },
 ];
