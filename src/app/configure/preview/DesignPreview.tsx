@@ -1,6 +1,5 @@
 "use client"
 
-import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import Phone from '@/components/Phone'
 import { Button } from '@/components/ui/button'
 import { BASE_PRICE, PRODUCT_PRICES } from '@/config/products'
@@ -20,7 +19,8 @@ import LogInModal from '@/components/LogInModal'
 const DesignPreview = ({configuration}:{configuration : Configuration}) => {
 
     const router = useRouter()
-    const { user } = useKindeBrowserClient()
+    const { getUser } = useKindeBrowserClient()
+    const user = getUser()
     const {color, model, finish, material} = configuration
     const twBg = COLORS.find((supportedColor) => supportedColor.value === color)?.twBg
     const {label : modelLabel} = MODELS.options.find(({value}) => value === model)!
@@ -34,7 +34,7 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
     if(material === "polycarbonate") totalPrice += PRODUCT_PRICES.material.polycarbonate
     if(finish === "textured") totalPrice += PRODUCT_PRICES.finish.textured
 
-     const {mutate: createPaymentSession} = useMutation({
+     const {mutate: createPaymentSession, isPending} = useMutation({
         mutationKey:["get-checkout-session"],
         mutationFn: createCheckoutSession,
         onSuccess: ({url}) => {
@@ -131,6 +131,8 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
             <div className='mt-8 flex justify-end pb-12'>
                 <Button 
                     onClick={() => handleCheckout()} 
+                    isLoading={isPending}
+                    disabled={isPending}
                     loadingText="Please wait" 
                     className='cursor-pointer px-4 sm:px-6 lg:px-8'
                 >
