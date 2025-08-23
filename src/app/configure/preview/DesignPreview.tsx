@@ -132,7 +132,7 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
                 <Button 
                     onClick={() => handleCheckout()} 
                     loadingText="Please wait" 
-                    className='px-4 sm:px-6 lg:px-8'
+                    className='cursor-pointer px-4 sm:px-6 lg:px-8'
                 >
                     Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/>
                 </Button>
