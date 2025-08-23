@@ -5,6 +5,10 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner"
 import Providers from "@/components/Providers";
+import { constructMetadata } from "@/lib/utils";
+
+
+export const metadata = constructMetadata()
 
 const recursive = Recursive({subsets:["latin"]})
 
@@ -17,11 +21,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Pixelle",
-  description: "",
-};
 
 export default function RootLayout({
   children,
