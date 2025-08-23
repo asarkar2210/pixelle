@@ -10,26 +10,11 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  // Ignore generated code from linting
-  {
-    ignores: [
-      "src/generated/**",
-    ],
-  },
+  ...compat.extends("next/core-web-vitals"),
   {
     rules: {
       "react/no-unescaped-entities": "off",
-      "@next/next/no-img-element": "off",
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "no-unused-expressions": "off",
-      "@typescript-eslint/no-unused-expressions": "off",
-      "@typescript-eslint/no-this-alias": "off",
-      "@typescript-eslint/no-non-null-asserted-optional": "off",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-      
+      "@next/next/no-img-element": "off",   
     },
   },
 ];
