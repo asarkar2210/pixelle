@@ -41,22 +41,27 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
             if (url) router.push(url)
                 else throw new Error ("Unable to retrieve payment URL.") 
         },
-        onError: () => {
-            toast.error("Something went wrong.",{
-                description: "There was an error on our end. Please try again later."
-            })
+        onError: (err: any) => {
+            const message = (err?.message || '').toLowerCase()
+            if (!message.includes('logged in') && !message.includes('auth')) {
+                toast.error("Something went wrong.",{
+                    description: "There was an error on our end. Please try again later."
+                })
+            }
         }
     }) 
 
     const handleCheckout = () => {
-        if(user) {
-            //create payment session
-            createPaymentSession({configId: configuration.id})
-        } else {
-            // need to log in
-            localStorage.setItem("configurationId", configuration.id)
-            setIsLogInModalOpen(true)
-        }
+        // Always attempt server-side auth via action; if it fails due to auth, prompt login
+        createPaymentSession({ configId: configuration.id }, {
+            onError: (err: any) => {
+                const message = (err?.message || '').toLowerCase()
+                if (message.includes('logged in') || message.includes('auth')) {
+                    try { localStorage.setItem('configurationId', configuration.id) } catch {}
+                    setIsLogInModalOpen(true)
+                }
+            }
+        } as any)
     }
  
   return (

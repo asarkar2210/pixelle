@@ -35,9 +35,19 @@ const LogInModal = ({isOpen, setIsOpen} : {
                 </DialogDescription>
             </DialogHeader>
 
-            <div className='grid grid-cols-2 gap-6 divide-x divide-gray-200'>
-                <LoginLink className={buttonVariants({variant: 'outline'})}>Login </LoginLink>
-                <RegisterLink className={buttonVariants({variant: 'default'})}>Sign Up </RegisterLink>
+                        <div className='grid grid-cols-2 gap-6 divide-x divide-gray-200'>
+                                <LoginLink
+                                    postLoginRedirectURL='/auth-callback'
+                                    className={buttonVariants({variant: 'outline'})}
+                                >
+                                    Login
+                                </LoginLink>
+                                <RegisterLink
+                                    postLoginRedirectURL='/auth-callback'
+                                    className={buttonVariants({variant: 'default'})}
+                                >
+                                    Sign Up
+                                </RegisterLink>
             </div>
         </DialogContent>
     </Dialog>
