@@ -11,31 +11,61 @@ import { useMutation } from '@tanstack/react-query'
 import { ArrowRight, Check } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Confetti from 'react-dom-confetti'
+import { createCheckoutSession } from './actions'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import LogInModal from '@/components/LogInModal'
 
 const DesignPreview = ({configuration}:{configuration : Configuration}) => {
 
-    const[showConfetti, setShowConfetti] = useState(false)
-    useEffect(() => setShowConfetti(true))
-
+    const router = useRouter()
+    const { user } = useKindeBrowserClient()
     const {color, model, finish, material} = configuration
     const twBg = COLORS.find((supportedColor) => supportedColor.value === color)?.twBg
-
     const {label : modelLabel} = MODELS.options.find(({value}) => value === model)!
+
+    const[showConfetti, setShowConfetti] = useState<boolean>(false)
+    useEffect(() => setShowConfetti(true))
+
+    const [isLogInModalOpen, setIsLogInModalOpen] = useState<boolean>(false)
 
     let totalPrice = BASE_PRICE
     if(material === "polycarbonate") totalPrice += PRODUCT_PRICES.material.polycarbonate
     if(finish === "textured") totalPrice += PRODUCT_PRICES.finish.textured
 
-/*     const {} = useMutation({
+     const {mutate: createPaymentSession} = useMutation({
         mutationKey:["get-checkout-session"],
-        mutationFn: 
-    }) */
+        mutationFn: createCheckoutSession,
+        onSuccess: ({url}) => {
+            if (url) router.push(url)
+                else throw new Error ("Unable to retrieve payment URL.") 
+        },
+        onError: () => {
+            toast.error("Something went wrong.",{
+                description: "There was an error on our end. Please try again later."
+            })
+        }
+    }) 
+
+    const handleCheckout = () => {
+        if(user) {
+            //create payment session
+            createPaymentSession({configId: configuration.id})
+        } else {
+            // need to log in
+            localStorage.setItem("configurationId", configuration.id)
+            setIsLogInModalOpen(true)
+        }
+    }
  
   return (
     <>
         <div className='pointer-events-none select-none absolute inset-0 overflow-hidden flex justify-center' aria-hidden='true'>
             <Confetti active={showConfetti} config={{elementCount: 200, spread: 240}}/>
         </div>
+
+        <LogInModal isOpen={isLogInModalOpen} setIsOpen={setIsLogInModalOpen} />
 
         <div className='mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12'>
             <div className='sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2'>
@@ -99,7 +129,11 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
                 </div>
             </div>
             <div className='mt-8 flex justify-end pb-12'>
-                <Button isLoading={true} disabled={true} loadingText="Please wait" className='px-4 sm:px-6 lg:px-8'>
+                <Button 
+                    onClick={() => handleCheckout()} 
+                    loadingText="Please wait" 
+                    className='px-4 sm:px-6 lg:px-8'
+                >
                     Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/>
                 </Button>
             </div>
