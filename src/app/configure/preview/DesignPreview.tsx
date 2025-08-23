@@ -26,7 +26,7 @@ const DesignPreview = ({configuration}:{configuration : Configuration}) => {
     const {label : modelLabel} = MODELS.options.find(({value}) => value === model)!
 
     const[showConfetti, setShowConfetti] = useState<boolean>(false)
-    useEffect(() => setShowConfetti(true))
+    useEffect(() => setShowConfetti(true), [])
 
     const [isLogInModalOpen, setIsLogInModalOpen] = useState<boolean>(false)
 

@@ -13,12 +13,9 @@ export async function POST (req: Request) {
             return new Response('Invalid Signature', {status: 400})
         }
 
-        const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
+    const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
 
         if (event.type === "checkout.session.completed"){
-            if (!event.data.object.customer_details?.email) {
-                throw new Error ('Missing user email')
-            }
             const session = event.data.object as Stripe.Checkout.Session
 
             const {userId, orderId} = session.metadata || {
@@ -29,8 +26,28 @@ export async function POST (req: Request) {
                 throw new Error ('Invalid request metadata')
             }
 
-            const billingAddress = session.customer_details!.address
-            const shippingAddress = session.customer_details!.address
+            const customerDetails = session.customer_details
+            if (!customerDetails) {
+                throw new Error('Missing customer details on session')
+            }
+
+            if (!customerDetails.email) {
+                throw new Error('Missing user email')
+            }
+
+            if (!customerDetails.name) {
+                throw new Error('Missing customer name')
+            }
+
+            const address = customerDetails.address
+            if (!address) {
+                throw new Error('Missing customer address')
+            }
+
+            const { city, country, postal_code, line1, state } = address
+            if (!city || !country || !postal_code || !line1) {
+                throw new Error('Incomplete customer address')
+            }
 
             await db.order.update ({
                 where : {
@@ -40,23 +57,23 @@ export async function POST (req: Request) {
                     isPaid: true,
                     shippingAddress:{
                         create:{
-                            name: session.customer_details!.name!,
-                            city: shippingAddress?.city!,
-                            country: shippingAddress?.country!,
-                            postalCode: shippingAddress?.postal_code!,
-                            street: shippingAddress?.line1!,
-                            state: shippingAddress?.state!,
+                            name: customerDetails.name,
+                            city,
+                            country,
+                            postalCode: postal_code,
+                            street: line1,
+                            state: state ?? undefined,
 
                         }
                     },
                     billingAddress:{
                         create:{
-                            name: session.customer_details!.name!,
-                            city: billingAddress?.city!,
-                            country: billingAddress?.country!,
-                            postalCode: billingAddress?.postal_code!,
-                            street: billingAddress?.line1!,
-                            state: billingAddress?.state!,
+                            name: customerDetails.name,
+                            city,
+                            country,
+                            postalCode: postal_code,
+                            street: line1,
+                            state: state ?? undefined,
 
                         }
                     },

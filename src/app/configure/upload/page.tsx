@@ -3,13 +3,13 @@
 import { Progress } from '@/components/ui/progress'
 import { useUploadThing } from '@/lib/uploadthing'
 import { cn } from '@/lib/utils'
-import { Image, Loader2, MousePointerSquareDashed } from 'lucide-react'
+import { Image as ImageIcon, Loader2, MousePointerSquareDashed } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useState, useTransition } from 'react'
 import Dropzone, {FileRejection} from 'react-dropzone'
 import { toast } from "sonner"
 
-const page = () => {
+function Page() {
     const [uploadProgress, setUploadProgress] = useState<number>(0) 
     const [isDragOver, setIsDragOver] = useState<boolean>(false)
     const [isPending, startTransition] = useTransition() 
@@ -68,7 +68,7 @@ const page = () => {
               ) :isUploading || isPending ? (
                 <Loader2 className='animate-spin h-6 w-6 text-zinc-500 mb-2' />
               ) : (
-                <Image className='h-6 w-6 text-zinc-500 mb-2' />
+                <ImageIcon className='h-6 w-6 text-zinc-500 mb-2' />
               )} 
 
               <div className='flex flex-col justify-center mb-2 text-sm text-zinc-700'>
@@ -104,4 +104,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -54,7 +54,7 @@ const Steps = () => {
                             'flex items-center px-6 py-4 text-sm font-medium'
                         )}>
                             <span className='flex-shrink-0'>
-                                <img src={imgPath} className={cn("flex h-15 w-15 object-contain items-center justify-center", {
+                                <img src={imgPath} alt={step.name} className={cn("flex h-15 w-15 object-contain items-center justify-center", {
                                     'border-none':isCompleted,
                                     'border-[#212121]': isCurrent
                             })} />
