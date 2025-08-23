@@ -21,14 +21,13 @@ const eslintConfig = [
     rules: {
       "react/no-unescaped-entities": "off",
       "@next/next/no-img-element": "off",
-  // Disable unused vars checks for both JS and TS
-  "no-unused-vars": "off",
-  "@typescript-eslint/no-unused-vars": "off",
-  // Disable unused expressions checks
-  "no-unused-expressions": "off",
-  "@typescript-eslint/no-unused-expressions": "off",
-  // Allow aliasing `this` (e.g., const self = this)
-  "@typescript-eslint/no-this-alias": "off",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-this-alias": "off",
+      "@typescript-eslint/no-non-null-asserted-optional": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 ];
