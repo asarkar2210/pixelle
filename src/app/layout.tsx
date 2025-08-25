@@ -39,14 +39,16 @@ export default function RootLayout({
       <body
         className={recursive.className}
       >
-        <NavBar />
-        <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] grainy-light">
-          <div className="flex-1 flex flex-col h-full">
-            <Providers> {children} </Providers>                
-          </div>
-          <Footer />
-        </main> 
-        <Toaster position="bottom-center" richColors/>
+        <Providers>
+          <NavBar />
+          <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] grainy-light">
+            <div className="flex-1 flex flex-col h-full">
+              {children}
+            </div>
+            <Footer />
+          </main>
+          <Toaster position="bottom-center" richColors/>
+        </Providers>
       </body>
     </html>
   );
