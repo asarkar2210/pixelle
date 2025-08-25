@@ -1,4 +1,6 @@
 
+<img width="1851" height="965" alt="demoi" src="https://github.com/user-attachments/assets/6e9b8cbc-886a-4efe-8df1-81f1ac0f755c" />
+
 ## Pixelle — Custom Phone Case Builder
 
 Pixelle is a Next.js app that lets users upload a photo, configure a custom phone case, and purchase it via Stripe. It handles image uploads and dimensions, order creation and payment, webhook fulfillment, and transactional emails.
