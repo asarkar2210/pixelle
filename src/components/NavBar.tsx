@@ -23,9 +23,9 @@ const NavBar = () => {
             <div className='h-full flex items-center space-x-4'>
                 {isLoading ? null : isAuthenticated ? (
                     <>
-                        <a href='/api/auth/logout' className={buttonVariants({ size:"sm", variant:"ghost" })}>
+                        <Link prefetch={false} href='/api/auth/logout' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Sign Out
-                        </a>
+                        </Link>
                         {isAdmin ? (
                             <Link 
                                 href='/dashboard' 
@@ -48,13 +48,13 @@ const NavBar = () => {
                     </>
                 ) : (
                     <>
-                        <a href='/api/auth/register' className={buttonVariants({ size:"sm", variant:"ghost" })}>
+                        <Link prefetch={false} href='/api/auth/register' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Sign Up
-                        </a>
+                        </Link>
                         
-                        <a href='/api/auth/login' className={buttonVariants({ size:"sm", variant:"ghost" })}>
+                        <Link prefetch={false} href='/api/auth/login' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Login
-                        </a>
+                        </Link>
 
                         <div className='h-8 w-px bg-zinc-200 hidden sm:block' />
 
