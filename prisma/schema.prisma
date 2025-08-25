@@ -18,13 +18,21 @@ enum CaseColor {
 }
 
 enum PhoneModel {
-  iphonex
-  iphone11
-  iphone12
   iphone13
+  iphone13pro
+  iphone13promax
   iphone14
+  iphone14plus
+  iphone14pro
+  iphone14promax
   iphone15
+  iphone15plus
+  iphone15pro
+  iphone15promax
   iphone16
+  iphone16plus
+  iphone16pro
+  iphone16promax
 }
 
 enum CaseMaterial {
