@@ -1,4 +1,5 @@
 import React from 'react'
+import { unstable_noStore as noStore } from 'next/cache'
 import MaxWidthWrapper from './MaxWidthWrapper'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
@@ -6,6 +7,8 @@ import { ArrowRight } from 'lucide-react'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
 const NavBar = async () => {
+    // Ensure this component is always rendered dynamically per request
+    noStore()
     const { getUser } = getKindeServerSession()
     const user = await getUser()
     const isAdmin = user?.email === process.env.ADMIN_EMAIL
@@ -20,10 +23,7 @@ const NavBar = async () => {
             <div className='h-full flex items-center space-x-4'>
                 {user ? (
                     <>
-                        <Link href='/api/auth/logout' className={buttonVariants({
-                            size:"sm", 
-                            variant:"ghost",
-                        })}>
+                        <Link href='/api/auth/logout' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Sign Out
                         </Link>
                         {isAdmin ? (
@@ -48,21 +48,11 @@ const NavBar = async () => {
                     </>
                 ) : (
                     <>
-                        <Link 
-                            href='/api/auth/register' 
-                            className={buttonVariants({
-                                size:"sm", 
-                                variant:"ghost",
-                        })}>
+                        <Link href='/api/auth/register' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Sign Up
                         </Link>
                         
-                        <Link 
-                            href='/api/auth/login' 
-                            className={buttonVariants({
-                                size:"sm", 
-                                variant: "ghost",
-                        })}>
+                        <Link href='/api/auth/login' className={buttonVariants({ size:"sm", variant:"ghost" })}>
                             Login
                         </Link>
 

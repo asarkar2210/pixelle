@@ -9,6 +9,7 @@ import { constructMetadata } from "@/lib/utils";
 
 
 export const metadata = constructMetadata()
+export const dynamic = 'force-dynamic'
 
 const recursive = Recursive({subsets:["latin"]})
 
@@ -27,6 +28,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Render layout dynamically so auth-dependent UI (NavBar) is not statically cached
+  // Next 15: also supported to use export const dynamic = 'force-dynamic' at file scope
+  // but we'll instruct via noStore() in NavBar and here by using metadata+server components
   return (
     <html lang="en">
       <head>
