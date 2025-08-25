@@ -151,5 +151,5 @@ Open http://localhost:3000
 ---
 
 ## License
-This project is provided as-is; add a license file if you intend to publish or distribute.
+This project is open source and available under the [MIT License](LICENSE).
 
